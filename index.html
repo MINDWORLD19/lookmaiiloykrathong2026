@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050b20">
+  <title>คืนพิเศษของเรา | ลอยกระทง</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Mali:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --gold: #f9d77a;
+  --pink: #f5a8d1;
+  --ink: #050b20;
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050b20;
+  color: #fff;
+  font-family: 'Kanit', sans-serif;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.shade {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(3,8,25,.22), transparent 42%, rgba(2,6,19,.35));
+}
+
+/* ---------- Header ---------- */
+.top {
+  position: fixed;
+  top: env(safe-area-inset-top, 14px);
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 16px 18px;
+  pointer-events: none;
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #e8c986;
+  opacity: .8;
+}
+
+.top h1 {
+  font-family: 'Mali', cursive;
+  font-size: clamp(22px, 4vw, 38px);
+  font-weight: 500;
+  margin: 4px 0;
+  text-shadow: 0 0 22px #e8a6d7;
+}
+
+.top p {
+  font-size: 12px;
+  color: #c9d3e8;
+  margin: 0;
+  opacity: .85;
+}
+
+/* ---------- Bottom panel ---------- */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: min(92vw, 470px);
+  padding: 16px 18px 14px;
+  text-align: center;
+  border: 1px solid rgba(255,224,166,.25);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(11,23,52,.86), rgba(16,19,48,.74));
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 60px #0008;
+}
+
+.message {
+  font-family: 'Mali', cursive;
+  font-size: clamp(16px, 3.7vw, 22px);
+  color: #fff2ce;
+  margin: 0 0 5px;
+}
+
+.hint {
+  font-size: 12px;
+  color: #c5cee0;
+  margin: 0 0 13px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  appearance: none;
+  border: 1px solid rgba(255,224,166,.4);
+  border-radius: 999px;
+  padding: 10px 17px;
+  background: linear-gradient(135deg, #f8df9b, #d9a84f);
+  color: #35230a;
+  font: 500 13px 'Kanit', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 5px 22px #e5b45b35;
+  transition: .2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.btn.secondary {
+  background: rgba(255,255,255,.08);
+  color: #f7e8c6;
+  border-color: #ffffff35;
+  box-shadow: none;
+}
+
+.tools {
+  position: fixed;
+  right: 14px;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  display: flex;
+  gap: 8px;
+}
+
+.round {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ffffff30;
+  background: #101a37bb;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.btn:disabled {
+  opacity: .55;
+  cursor: default;
+  transform: none;
+  filter: none;
+}
+
+.wish-input {
+  display: block;
+  width: 100%;
+  margin: 0 0 13px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255,224,166,.45);
+  border-radius: 14px;
+  background: #080f28;
+  color: #fff;
+  font: 16px 'Kanit', sans-serif;
+  text-align: center;
+  outline: none;
+}
+
+.wish-input::placeholder { color: #8e9ab5; }
+.wish-input:focus { border-color: #f2cf82; box-shadow: 0 0 0 3px rgba(242,207,130,.18); }
+
+/* ---------- Heartfelt message box ---------- */
+.letter {
+  position: fixed;
+  left: 50%;
+  top: 46%;
+  width: min(88vw, 440px);
+  max-height: calc(100vh - 290px);
+  overflow: auto;
+  padding: 24px 22px;
+  border: 1px solid rgba(255,224,166,.4);
+  border-radius: 22px;
+  background: linear-gradient(150deg, rgba(23,38,75,.94), rgba(17,21,47,.92));
+  box-shadow: 0 24px 80px #000a, 0 0 40px rgba(245,207,128,.12);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -46%);
+  transition: opacity .8s ease, transform .8s ease;
+  z-index: 3;
+}
+
+.letter.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+}
+
+.letter p {
+  margin: 0;
+  font: 500 clamp(16px, 4.2vw, 20px)/1.85 'Mali', cursive;
+  color: #fff2ce;
+  text-align: center;
+  white-space: pre-line;
+}
+
+/* ---------- Modal ---------- */
+.round.on {
+  color: #f7d98a;
+  border-color: rgba(247,217,138,.6);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: #020616b9;
+  backdrop-filter: blur(10px);
+  z-index: 5;
+}
+
+.modal.open { display: flex; }
+
+.dialog {
+  width: min(100%, 440px);
+  max-height: 90vh;
+  overflow: auto;
+  border: 1px solid #f5d99b55;
+  border-radius: 22px;
+  padding: 22px;
+  background: linear-gradient(150deg, #17264b, #11152f);
+  box-shadow: 0 24px 80px #0009;
+}
+
+.dialog h2 {
+  font: 500 22px 'Mali', cursive;
+  color: #ffe6a8;
+  margin: 0 0 5px;
+}
+
+.dialog p {
+  font-size: 12px;
+  color: #c8d1e5;
+  margin: 0 0 16px;
+}
+
+.field {
+  display: block;
+  text-align: left;
+  margin: 12px 0;
+}
+
+.field span {
+  display: block;
+  font-size: 12px;
+  color: #e8d8b5;
+  margin-bottom: 5px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid #ffffff25;
+  border-radius: 11px;
+  background: #080f28;
+  color: #fff;
+  padding: 11px 12px;
+  font: 13px 'Kanit', sans-serif;
+  outline: none;
+}
+
+.field textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: #e9c879;
+}
+
+.preview {
+  width: 74px;
+  height: 74px;
+  border-radius: 14px;
+  object-fit: cover;
+  display: none;
+  margin-top: 8px;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 9px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+/* ---------- Misc ---------- */
+.credit {
+  position: fixed;
+  left: 14px;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  font-size: 10px;
+  color: #b9c4d8aa;
+  letter-spacing: 1px;
+}
+
+.toast {
+  position: fixed;
+  top: 17%;
+  left: 50%;
+  transform: translate(-50%, -10px);
+  opacity: 0;
+  transition: .35s;
+  pointer-events: none;
+  text-align: center;
+  font: 500 clamp(18px, 4vw, 30px) 'Mali', cursive;
+  color: #fff0bf;
+  text-shadow: 0 0 18px #f8d77c, 0 0 35px #e58ec8;
+  white-space: pre-line;
+  width: 90%;
+  max-width: 760px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 600px) {
+  .credit { display: none; }
+}
+
+@media (max-height: 650px) {
+  .top { padding-top: 7px; }
+  .top p { display: none; }
+  .panel { bottom: 10px; padding: 11px; }
+  .hint { margin-bottom: 8px; }
+  .btn { padding: 8px 14px; }
+}
+
+  </style>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <div class="shade"></div>
+  <div class="credit">A LITTLE NIGHT MAGIC</div>
+
+  <header class="top">
+    <div class="eyebrow">A NIGHT TO REMEMBER</div>
+    <h1 id="headline">คืนพิเศษของเรา</h1>
+    <p>ค่ำคืนนี้… ขอให้คำอธิษฐานลอยไปพร้อมแสงดาว</p>
+  </header>
+
+  <div class="tools">
+    <button class="round" id="sound" title="เปิด/ปิดเสียง">♫</button>
+    <button class="round" id="settings" title="ปรับแต่ง">⚙</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <section class="panel">
+    <p class="message" id="panelMessage">ก่อนปล่อยกระทง… มาจุดเทียนด้วยกันนะ</p>
+    <p class="hint" id="panelHint">แตะปุ่มด้านล่าง เพื่อจุดไฟดวงเล็ก ๆ ให้คำอธิษฐานของเรา</p>
+    <input class="wish-input" id="wishInput" type="text" maxlength="80" autocomplete="off" placeholder="พิมพ์คำอธิษฐานของเธอที่นี่…" aria-label="คำอธิษฐาน" hidden>
+    <div class="actions">
+      <button class="btn" id="mainAction">จุดเทียน 🕯️</button>
+      <button class="btn secondary" id="customize">ปรับแต่งข้อความ</button>
+    </div>
+  </section>
+
+  <div class="letter" id="letter" role="status" aria-live="polite"><p id="letterText"></p></div>
+
+  <div class="modal" id="modal">
+    <div class="dialog">
+      <h2>แก้ไขความในใจ</h2>
+      <p>ข้อความนี้จะขึ้นเป็นกล่องข้อความตอนกด "เปิดความในใจ" (ขึ้นบรรทัดใหม่ได้)</p>
+      <label class="field"><span>ความในใจ</span>
+        <textarea id="message" maxlength="400"></textarea>
+      </label>
+      <div class="dialog-actions">
+        <button class="btn secondary" id="closeModal">ปิด</button>
+        <button class="btn" id="save">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+  <script>window.LOCKED = true;</script>
+  <script>
+(() => {
+  const canvas = document.getElementById('scene');
+  const ctx = canvas.getContext('2d');
+
+  let W, H, DPR = 1, t = 0, stage = 0;
+  let kr = { x: .5, y: .52, scale: 1 };
+  let dim = .38;
+  let releaseT0 = 0;
+  // release path: carried to the pier edge, set on the water, then drifts out
+  const RELEASE = [
+    { x: .56, y: .84, s: 1.7,  k: .06,  until: 1.5 },
+    { x: .56, y: .795, s: 1.35, k: .07, until: 2.4 },
+    { x: .62, y: .70, s: 1,    k: .02, until: Infinity }
+  ];
+  let particles = [], stars = [], fireworks = [];
+  let wish = '';
+  let flame = 0, flameTarget = 0;
+  const EDITABLE = !window.LOCKED;
+
+  // Where each wish is sent so you can read it later (leave '' to keep wishes private to the page).
+  // Example with Formspree: 'https://formspree.io/f/xxxxxxxx'
+  const WISH_ENDPOINT = '';
+
+  const DEFAULT_MESSAGE = 'ขอให้พี่ ลม กินเบียร์ได้เยอะกว่าเดิมครับ555555555';
+  let data = { message: DEFAULT_MESSAGE };
+
+  function saveWish(text) {
+    if (!WISH_ENDPOINT) return;
+    try {
+      fetch(WISH_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ message: text, sent_at: new Date().toLocaleString('th-TH') })
+      }).catch(() => {});
+    } catch (e) { /* a failed save never blocks the surprise */ }
+  }
+
+  /* ---------- Setup ---------- */
+  function resize() {
+    DPR = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth;
+    H = innerHeight;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    stars = Array.from({ length: Math.floor(W * H / 4200) }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H * .62,
+      r: Math.random() * 1.5 + .25,
+      a: Math.random(),
+      s: Math.random() * .02 + .005
+    }));
+  }
+  addEventListener('resize', resize);
+  resize();
+
+  /* ---------- Drawing helpers ---------- */
+  function poly(points, fill, stroke) {
+    ctx.beginPath();
+    points.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]));
+    ctx.closePath();
+    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+    if (stroke) { ctx.strokeStyle = stroke; ctx.stroke(); }
+  }
+
+  function glow(x, y, r, color) {
+    let g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, color);
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function bigScale() {
+    return Math.max(1.4, Math.min(W / 190, H / 280, 3.2));
+  }
+
+  /* ---------- Scene ---------- */
+  function drawSky() {
+    let g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#050b20');
+    g.addColorStop(.48, '#101d3b');
+    g.addColorStop(1, '#18233b');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    stars.forEach(s => {
+      s.a += s.s;
+      if (s.a > 1 || s.a < 0) s.s *= -1;
+      ctx.globalAlpha = .35 + Math.abs(Math.sin(s.a * 3)) * .55;
+      ctx.fillStyle = '#fff4cf';
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, 7);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    // full moon
+    const m = moonPos();
+    glow(m.x, m.y, m.r * 5, '#ffeeb41c');
+    glow(m.x, m.y, m.r * 2.4, '#fff1bd4d');
+    ctx.fillStyle = '#fff3cf';
+    ctx.beginPath();
+    ctx.arc(m.x, m.y, m.r, 0, 7);
+    ctx.fill();
+  }
+
+  // Moon placement keeps clear of the wish text on narrow screens
+  function moonPos() {
+    if (W < 600) return { x: W * .84, y: H * .27, r: 18 };
+    return { x: W * .76, y: H * .17, r: Math.max(18, Math.min(26, W / 50)) };
+  }
+
+  function temple(x, y, s) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(s, s);
+    glow(0, -28, 55, '#ffb54a18');
+    poly([[-36, 0], [36, 0], [25, -8], [-25, -8]], '#6b4b36');
+    poly([[-27, -8], [-18, -39], [0, -55], [18, -39], [27, -8]], '#b96d27');
+    poly([[-18, -39], [0, -68], [18, -39]], '#e39b3f');
+    poly([[-7, -60], [0, -84], [7, -60]], '#f3c46a');
+    ctx.fillStyle = '#ffd77e';
+    ctx.fillRect(-2, -77, 4, 7);
+    ctx.fillStyle = '#f8c16b';
+    ctx.fillRect(-19, -29, 38, 3);
+    ctx.fillRect(-23, -17, 46, 3);
+    ctx.restore();
+  }
+
+  function skyline() {
+    let y = H * .56;
+    ctx.fillStyle = '#101a32';
+    ctx.beginPath();
+    ctx.moveTo(0, y + 15);
+    for (let x = 0; x <= W; x += 25) {
+      ctx.lineTo(x, y + Math.sin(x * .013) * 5 + Math.cos(x * .027) * 3);
+    }
+    ctx.lineTo(W, H * .72);
+    ctx.lineTo(0, H * .72);
+    ctx.fill();
+
+    for (let i = 0; i < 5; i++) {
+      let x = W * (.48 + i * .105);
+      temple(x, y + 8, Math.min(W / 650, 1.15) * (.7 + i * .07));
+    }
+
+    ctx.strokeStyle = '#e6c37c88';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, y + 12);
+    ctx.lineTo(W, y + 12);
+    ctx.stroke();
+
+    for (let i = 0; i < 50; i++) {
+      let x = (i / 50) * W;
+      let yy = y + 22 + Math.sin(i * 4) * 5;
+      ctx.fillStyle = i % 3 ? '#f5d98a' : '#ffefc2';
+      ctx.fillRect(x, yy, 2, 2);
+    }
+  }
+
+  function river() {
+    let y = H * .61;
+    let g = ctx.createLinearGradient(0, y, 0, H);
+    g.addColorStop(0, '#172c4a');
+    g.addColorStop(.45, '#0b1b34');
+    g.addColorStop(1, '#050d20');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.lineTo(W, H);
+    ctx.lineTo(0, H);
+    ctx.fill();
+
+    for (let i = 0; i < 28; i++) {
+      let yy = y + Math.pow(i / 28, 1.6) * H * .4;
+      let span = (yy - y) * .7 + 12;
+      let cx = W * .56;
+      ctx.strokeStyle = `rgba(245,207,128,${.035 + Math.random() * .035})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(cx - span, yy);
+      ctx.lineTo(cx + span, yy);
+      ctx.stroke();
+    }
+
+    for (let i = 0; i < 55; i++) {
+      let x = (i * 83 + t * 7) % (W + 40) - 20;
+      let yy = y + ((i * 37) % Math.max(1, H - y));
+      ctx.fillStyle = `rgba(255,218,145,${.12 + Math.sin(t + i) * .08})`;
+      ctx.fillRect(x, yy, 2 + yy / H * 3, 1);
+    }
+  }
+
+  function pier() {
+    let y = H * .78;
+    const deck = [[W * .0, y + H * .14], [W * .55, y + H * .14], [W * .69, y + H * .04], [W * .14, y + H * .04]];
+    poly(deck, '#392d2c');
+    poly(deck, null, '#a77a54');
+
+    for (let i = 0; i < 8; i++) {
+      let x = W * (.04 + i * .075);
+      ctx.strokeStyle = '#79543f';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x, y + H * .14);
+      ctx.lineTo(x + W * .14, y + H * .04);
+      ctx.stroke();
+    }
+  }
+
+  /* ---------- Cute 3D krathong ---------- */
+  const PALETTES = [
+    { a: '#fff0f7', b: '#ff86bd', i1: '#ffffff', i2: '#ffb0d2' },  // pink lotus
+    { a: '#fffbe6', b: '#ffc542', i1: '#ffffff', i2: '#ffe08a' },  // golden
+    { a: '#f1e8ff', b: '#a98bff', i1: '#ffffff', i2: '#cdb8ff' },  // lavender
+    { a: '#fff1e6', b: '#ff9468', i1: '#ffffff', i2: '#ffc4a3' },  // peach
+    { a: '#e8f8ff', b: '#6fc3f2', i1: '#ffffff', i2: '#aee0fa' }   // sky
+  ];
+
+  function petal(bx, by, tx, ty, w, c1, c2) {
+    let g = ctx.createLinearGradient(bx, by, tx, ty);
+    g.addColorStop(0, c1);
+    g.addColorStop(1, c2);
+    ctx.beginPath();
+    ctx.moveTo(bx - w, by);
+    ctx.quadraticCurveTo(bx - w * 1.5, (by + ty) / 2, tx, ty);
+    ctx.quadraticCurveTo(bx + w * 1.5, (by + ty) / 2, bx + w, by);
+    ctx.closePath();
+    ctx.fillStyle = g;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,.6)';
+    ctx.lineWidth = .8;
+    ctx.stroke();
+    // soft highlight vein
+    ctx.strokeStyle = 'rgba(255,255,255,.4)';
+    ctx.beginPath();
+    ctx.moveTo(bx, by - 1);
+    ctx.lineTo(bx + (tx - bx) * .7, by + (ty - by) * .7);
+    ctx.stroke();
+  }
+
+  function petalRing(top, n, r, len, up, w, offset, c1, c2, half) {
+    let list = [];
+    for (let i = 0; i < n; i++) {
+      let a = offset + i * Math.PI * 2 / n;
+      list.push({ a, s: Math.sin(a) });
+    }
+    list.sort((p, q) => p.s - q.s);
+    list.forEach(p => {
+      if (half === 'back' && p.s >= 0) return;
+      if (half === 'front' && p.s < 0) return;
+      let bx = Math.cos(p.a) * r, by = top + p.s * r * .32;
+      let tx = bx + Math.cos(p.a) * len, ty = by + p.s * len * .32 - up;
+      petal(bx, by, tx, ty, w, c1, c2);
+    });
+  }
+
+  function leafPleats(front, n, rx, ry, h) {
+    for (let i = 0; i < n; i++) {
+      let a = (front ? 0 : Math.PI) + (i + .5) / n * Math.PI;
+      let px = Math.cos(a) * rx, py = Math.sin(a) * ry;
+      let g = ctx.createLinearGradient(px, py - h, px, py);
+      g.addColorStop(0, i % 2 ? '#a6f2c2' : '#8be8b0');
+      g.addColorStop(1, i % 2 ? '#3fb27c' : '#2f9a68');
+      ctx.beginPath();
+      ctx.moveTo(px - 6.5, py);
+      ctx.quadraticCurveTo(px - 5, py - h * .7, px + Math.cos(a) * 3, py - h);
+      ctx.quadraticCurveTo(px + 5, py - h * .7, px + 6.5, py);
+      ctx.closePath();
+      ctx.fillStyle = g;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(20,90,60,.35)';
+      ctx.lineWidth = .7;
+      ctx.stroke();
+    }
+  }
+
+  function sparkle(x, y, r, alpha) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = '#fff6cf';
+    ctx.beginPath();
+    ctx.moveTo(x, y - r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.quadraticCurveTo(x, y, x, y + r);
+    ctx.quadraticCurveTo(x, y, x - r, y);
+    ctx.quadraticCurveTo(x, y, x, y - r);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawKrathong(x, y, scale, variant = 0, main = false, phase = 0, lit = 1) {
+    const P = PALETTES[variant % PALETTES.length];
+    const TOP = -3;
+    const flick = Math.sin(t * 9 + phase) * .5 + .5 + Math.sin(t * 13 + phase * 2) * .15;
+
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(scale, scale);
+
+    glow(0, -8, 62, '#f9ce6a30');
+
+    // water contact shadow
+    ctx.fillStyle = 'rgba(0,10,25,.35)';
+    ctx.beginPath();
+    ctx.ellipse(0, 17, 44, 9, 0, 0, 7);
+    ctx.fill();
+
+    // chubby base (cylinder)
+    let side = ctx.createLinearGradient(-42, 0, 42, 0);
+    side.addColorStop(0, '#1d7650');
+    side.addColorStop(.35, '#58d396');
+    side.addColorStop(.65, '#3cae78');
+    side.addColorStop(1, '#165f41');
+    ctx.fillStyle = side;
+    ctx.beginPath();
+    ctx.ellipse(0, 14, 42, 12, 0, 0, 7);
+    ctx.fill();
+    ctx.fillRect(-42, 0, 84, 14);
+    ctx.beginPath();
+    ctx.ellipse(0, 14, 42, 12, 0, 0, Math.PI);
+    ctx.fill();
+
+    // top face
+    let top = ctx.createRadialGradient(-8, -6, 2, 0, 0, 44);
+    top.addColorStop(0, '#b4f7cd');
+    top.addColorStop(1, '#46b97f');
+    ctx.fillStyle = top;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 42, 13, 0, 0, 7);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,.45)';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    // kawaii face on the front
+    ctx.fillStyle = '#23403a';
+    ctx.beginPath(); ctx.arc(-10, 9, 1.9, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.arc(10, 9, 1.9, 0, 7); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(-9.4, 8.4, .65, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.arc(10.6, 8.4, .65, 0, 7); ctx.fill();
+    ctx.fillStyle = 'rgba(255,140,175,.75)';
+    ctx.beginPath(); ctx.ellipse(-18, 11, 3.6, 2, 0, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(18, 11, 3.6, 2, 0, 0, 7); ctx.fill();
+    ctx.strokeStyle = '#23403a';
+    ctx.lineWidth = 1.2;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.arc(0, 9.5, 3, Math.PI * .15, Math.PI * .85);
+    ctx.stroke();
+
+    // back leaf pleats, back petals
+    leafPleats(false, 12, 40, 12, 10);
+    petalRing(TOP, 8, 17, 15, 12, 8, .2, P.a, P.b, 'all');
+    petalRing(TOP, 6, 8, 6, 26, 6.5, .5, P.i1, P.i2, 'back');
+
+    // candle + incense
+    let cg = ctx.createLinearGradient(-3, 0, 3, 0);
+    cg.addColorStop(0, '#ffe9b8');
+    cg.addColorStop(.5, '#fffaf0');
+    cg.addColorStop(1, '#f0d28f');
+    ctx.fillStyle = cg;
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(-3, TOP - 34, 6, 28, 2) : ctx.rect(-3, TOP - 34, 6, 28);
+    ctx.fill();
+
+    ctx.strokeStyle = '#c98a4a';
+    ctx.lineWidth = 1.2;
+    [[-5, -11], [5, 11]].forEach(([dx, tip]) => {
+      ctx.beginPath();
+      ctx.moveTo(dx * .4, TOP - 6);
+      ctx.lineTo(tip * 1.1, TOP - 38);
+      ctx.stroke();
+      if (lit > 0) {
+        ctx.save();
+        ctx.globalAlpha = lit;
+        glow(tip * 1.1, TOP - 38, 4, '#ff7a3acc');
+        ctx.fillStyle = '#ff8a4a';
+        ctx.beginPath(); ctx.arc(tip * 1.1, TOP - 38, 1, 0, 7); ctx.fill();
+        ctx.restore();
+      }
+    });
+
+    // wick
+    ctx.strokeStyle = lit > .5 ? '#3a2a1c' : '#6b5a48';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(0, TOP - 34);
+    ctx.lineTo(0, TOP - 37.5);
+    ctx.stroke();
+
+    // flame (grows when lit)
+    if (lit > 0.01) {
+      ctx.save();
+      ctx.globalAlpha = Math.min(1, lit);
+      ctx.translate(0, TOP - 38);
+      ctx.scale(lit, lit);
+      ctx.translate(0, -(TOP - 38));
+      glow(0, TOP - 42, 18 + flick * 5, '#ffd98a88');
+      let fg = ctx.createRadialGradient(0, TOP - 40, 0, 0, TOP - 40, 7);
+      fg.addColorStop(0, '#fffbe0');
+      fg.addColorStop(.5, '#ffd36a');
+      fg.addColorStop(1, 'rgba(255,140,60,0)');
+      ctx.fillStyle = fg;
+      ctx.beginPath();
+      ctx.ellipse(0, TOP - 41, 3.4, 6.5 + flick * 2, 0, 0, 7);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // front petals + front leaf pleats
+    petalRing(TOP, 6, 8, 6, 26, 6.5, .5, P.i1, P.i2, 'front');
+    petalRing(TOP, 8, 17, 15, 12, 8, .2, P.a, P.b, 'front');
+    leafPleats(true, 12, 40, 12, 12);
+
+    ctx.restore();
+
+    if (main && lit > .3) {
+      for (let i = 0; i < 4; i++) {
+        let sx = x + Math.cos(t * .8 + i * 1.6) * 58 * scale;
+        let sy = y - (30 + Math.abs(Math.sin(t * 1.1 + i)) * 28) * scale;
+        sparkle(sx, sy, 4 + Math.sin(t * 3 + i) * 1.5, .5 + Math.sin(t * 2.4 + i * 2) * .4);
+      }
+    }
+  }
+
+  /* ---------- Krathongs floating in the river ---------- */
+  const ambient = Array.from({ length: 11 }, (_, i) => {
+    const u = Math.random();
+    return {
+      u,
+      x: Math.random(),
+      v: (.0001 + Math.random() * .00012) * (.5 + u),
+      ph: Math.random() * 6.28,
+      variant: i % PALETTES.length
+    };
+  });
+
+  function drawAmbientKrathongs() {
+    const base = Math.max(.7, Math.min(1.15, W / 420));
+    ambient.forEach(k => { k.x += k.v; if (k.x > 1.08) k.x = -.08; });
+    ambient.slice().sort((a, b) => a.u - b.u).forEach(k => {
+      let y = H * (.645 + k.u * .155);
+      let x = k.x * W;
+      let bob = Math.sin(t * 1.3 + k.ph) * 2 * (.4 + k.u);
+      let s = base * (.26 + k.u * .36);
+
+      for (let j = 0; j < 2; j++) {
+        let p = (t * .35 + k.ph + j * .5) % 1;
+        ctx.strokeStyle = 'rgba(255,226,160,' + (.22 * (1 - p)) + ')';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.ellipse(x, y + 14 * s, (45 + p * 30) * s, (10 + p * 7) * s, 0, 0, 7);
+        ctx.stroke();
+      }
+      drawKrathong(x, y + bob, s, k.variant, false, k.ph);
+    });
+  }
+
+  /* ---------- Heart made of light ---------- */
+  function heartParticles() {
+    particles = [];
+    const off = document.createElement('canvas');
+    off.width = 360;
+    off.height = 300;
+    const c = off.getContext('2d');
+    c.fillStyle = 'white';
+    c.beginPath();
+    for (let a = 0; a < Math.PI * 2; a += .01) {
+      const x = 16 * Math.pow(Math.sin(a), 3);
+      const y = 13 * Math.cos(a) - 5 * Math.cos(2 * a) - 2 * Math.cos(3 * a) - Math.cos(4 * a);
+      const px = 180 + x * 8, py = 155 - y * 8;
+      a === 0 ? c.moveTo(px, py) : c.lineTo(px, py);
+    }
+    c.closePath();
+    c.fill();
+
+    const sc = Math.min(1.05, W / 380, H / 760);
+    const im = c.getImageData(0, 0, off.width, off.height).data;
+    const pts = [];
+    let minY = off.height;
+    for (let y = 0; y < off.height; y += 4) {
+      for (let x = 0; x < off.width; x += 4) {
+        if (im[(y * off.width + x) * 4 + 3] > 120) {
+          pts.push([x, y]);
+          if (y < minY) minY = y;
+        }
+      }
+    }
+
+    // top of the heart sits a small gap below the wish text
+    const r = toast.getBoundingClientRect();
+    const textBottom = r.bottom + 10;               // undo the toast's resting -10px offset
+    const top = Math.max(H * .2, textBottom + 22);
+
+    pts.forEach(([x, y]) => {
+      particles.push({
+        // the wish rises from the krathong out on the river
+        x: W * .62 + (Math.random() - .5) * 30,
+        y: H * .68 + (Math.random() - .5) * 20,
+        tx: W / 2 + (x - 180) * sc,
+        ty: top + (y - minY) * sc,
+        r: Math.random() * 1.6 + .5
+      });
+    });
+  }
+
+  function drawParticles() {
+    particles.forEach(p => {
+      p.x += (p.tx - p.x) * .09;
+      p.y += (p.ty - p.y) * .09;
+      glow(p.x, p.y, p.r * 4, '#f5d98b66');
+      ctx.fillStyle = '#fff0bc';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, 7);
+      ctx.fill();
+    });
+  }
+
+  /* ---------- Fireworks ---------- */
+  function burst(x, y, n = 65) {
+    for (let i = 0; i < n; i++) {
+      let a = Math.random() * Math.PI * 2;
+      let v = Math.random() * 3 + 1;
+      fireworks.push({
+        x, y,
+        vx: Math.cos(a) * v,
+        vy: Math.sin(a) * v,
+        life: 1,
+        r: Math.random() * 2 + 1
+      });
+    }
+  }
+
+  function drawFireworks() {
+    fireworks.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += .025;
+      p.life -= .012;
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = '#ffe4a0';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, 7);
+      ctx.fill();
+    });
+    fireworks = fireworks.filter(p => p.life > 0);
+    ctx.globalAlpha = 1;
+  }
+
+  /* ---------- Main loop ---------- */
+  function frame() {
+    t += .016;
+    drawSky();
+    skyline();
+    river();
+    drawAmbientKrathongs();
+    pier();
+
+    let x = kr.x * W, y = kr.y * H;
+    flame += (flameTarget - flame) * .08;
+    const smallScale = Math.max(.7, Math.min(1.15, W / 420)) * 1.1;
+    let tx = .5, ty = .52, targetScale = bigScale(), k = .02;
+    if (stage >= 2) {
+      const e = t - releaseT0;
+      const ph = RELEASE.find(p => e < p.until);
+      tx = ph.x; ty = ph.y; targetScale = smallScale * ph.s; k = ph.k;
+    }
+    if (!kr.ready) { kr.scale = targetScale; kr.ready = true; }
+    kr.x += (tx - kr.x) * k;
+    kr.y += (ty - kr.y) * k;
+    kr.scale += (targetScale - kr.scale) * k;
+    const krScale = kr.scale;
+    if (stage === 2 && t - releaseT0 > 4.2) arrive();
+    dim += ((stage < 2 ? .38 : 0) - dim) * .03;
+    if (dim > .005) {
+      ctx.fillStyle = 'rgba(3,8,25,' + dim + ')';
+      ctx.fillRect(0, 0, W, H);
+    }
+    if (stage >= 2) {
+      const e = t - releaseT0;
+      if (e > 1.6 && e < 4.6) {
+        for (let j = 0; j < 2; j++) {
+          const p = (e - 1.6) / 3 + j * .3;
+          if (p > 0 && p < 1) {
+            const rx = (40 + p * 75) * krScale * .9;
+            ctx.strokeStyle = 'rgba(255,232,170,' + (.5 * (1 - p)) + ')';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.ellipse(x, y + 16 * krScale, rx, rx * .22, 0, 0, 7);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    drawKrathong(x, y + Math.sin(t * 1.7) * 1.6 * krScale, krScale, 0, true, 0, flame);
+
+    if (stage < 3) {
+      for (let i = 0; i < 16; i++) {
+        let fx = (i * 67 + t * 11) % W;
+        let fy = H * .58 + (i * 31 % Math.max(1, H * .32));
+        glow(fx, fy, 7, '#e8d58c35');
+      }
+    }
+
+    drawParticles();
+    drawFireworks();
+
+    // gentle hint above the unlit candle
+    if (stage === 0) {
+      const pulse = Math.sin(t * 3);
+      glow(x, y - 41 * krScale, (13 + pulse * 4) * krScale, 'rgba(255,232,160,' + (.2 + pulse * .08) + ')');
+    }
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  /* ---------- UI ---------- */
+  const $ = id => document.getElementById(id);
+  const btn = $('mainAction');
+  const wishInput = $('wishInput');
+  const toast = $('toast');
+  const letter = $('letter');
+  const letterText = $('letterText');
+
+  function setPanel(message, hint, buttonText) {
+    $('panelMessage').textContent = message;
+    $('panelHint').textContent = hint;
+    btn.textContent = buttonText;
+  }
+
+  const IDLE = [
+    'ก่อนปล่อยกระทง… มาจุดเทียนด้วยกันนะ',
+    'แตะปุ่มด้านล่าง เพื่อจุดไฟดวงเล็ก ๆ ให้คำอธิษฐานของเรา',
+    'จุดเทียน 🕯️'
+  ];
+
+  // The krathong reached the middle of the river: the wish goes up to the sky
+  function arrive() {
+    stage = 3;
+    toast.textContent = wish;
+    heartParticles();
+    toast.classList.add('show');
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => burst(W * (.2 + Math.random() * .6), H * (.16 + Math.random() * .34)), i * 170);
+    }
+    setPanel(
+      'คำอธิษฐานของเธอขึ้นไปอยู่บนฟ้าแล้ว',
+      'กระทงลอยถึงกลางแม่น้ำแล้ว… ยังมีอีกสิ่งที่อยากบอกเธอ',
+      'เปิดความในใจ 💗'
+    );
+    btn.disabled = false;
+  }
+
+  btn.onclick = () => {
+    if (stage === 0) {
+      startPiano();
+      stage = 1;
+      flameTarget = 1;
+      burst(kr.x * W, kr.y * H - 44 * kr.scale, 28);
+      setPanel(
+        'เทียนสว่างแล้ว',
+        'พิมพ์คำอธิษฐานของเธอ แล้วปล่อยกระทงให้ลอยไปพร้อมแสงดาว',
+        'ปล่อยกระทง ✨'
+      );
+      wishInput.hidden = false;
+      btn.disabled = true;
+      if (!matchMedia('(pointer: coarse)').matches) wishInput.focus({ preventScroll: true });
+    } else if (stage === 1) {
+      wish = wishInput.value.trim();
+      if (!wish) { wishInput.focus(); return; }
+      saveWish(wish);
+      wishInput.hidden = true;
+      stage = 2;
+      releaseT0 = t;
+      btn.disabled = true;
+      setPanel(
+        'กระทงกำลังพาคำอธิษฐานไปหาแสงดาว',
+        'รอสักครู่นะ… คำอธิษฐานของเธอกำลังจะขึ้นไปอยู่บนฟ้า',
+        'กำลังลอย…'
+      );
+      setTimeout(() => burst(W * .56, H * .78, 32), 1600);
+    } else if (stage === 3) {
+      stage = 4;
+      particles = [];
+      toast.classList.remove('show');
+      letterText.textContent = data.message;
+      letter.classList.add('show');
+      setPanel('ความในใจของเค้า', 'อ่านช้า ๆ ได้เลยนะ', 'เริ่มต้นอีกครั้ง ↻');
+    } else if (stage === 4) {
+      stage = 0;
+      particles = [];
+      flame = 0;
+      flameTarget = 0;
+      wish = '';
+      wishInput.value = '';
+      wishInput.hidden = true;
+      kr = { x: .5, y: .52, scale: bigScale(), ready: true };
+      toast.classList.remove('show');
+      letter.classList.remove('show');
+      setPanel(IDLE[0], IDLE[1], IDLE[2]);
+    }
+  };
+
+  wishInput.addEventListener('input', () => {
+    if (stage === 1) btn.disabled = !wishInput.value.trim();
+  });
+
+  wishInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.isComposing) {
+      e.preventDefault();
+      btn.click();
+    }
+  });
+
+  // Only the owner edits the final message (the VS Code copy has the editor; the shared page does not)
+  if (EDITABLE) {
+    $('settings').onclick = $('customize').onclick = () => {
+      $('message').value = data.message;
+      $('modal').classList.add('open');
+    };
+    $('closeModal').onclick = () => $('modal').classList.remove('open');
+    $('save').onclick = () => {
+      data.message = $('message').value.trim() || DEFAULT_MESSAGE;
+      $('modal').classList.remove('open');
+      if (stage === 4) letterText.textContent = data.message;
+    };
+  } else {
+    ['settings', 'customize', 'modal'].forEach(id => $(id).remove());
+  }
+
+  /* ---------- Soft piano (synthesised in the browser, no audio file) ---------- */
+  const piano = { ctx: null, master: null, bus: null, timer: null, next: 0, step: 0, on: false, muted: false };
+  const EIGHTH = 60 / 66 / 2;                       // 66 BPM, eighth notes
+  const hz = m => 440 * Math.pow(2, (m - 69) / 12);
+
+  // C - Am - F - G, a slow arpeggio with a sparse melody on top
+  const PROG = [
+    { bass: 48, arp: [60, 64, 67, 64, 72, 67, 64, 67] },
+    { bass: 45, arp: [57, 60, 64, 60, 69, 64, 60, 64] },
+    { bass: 41, arp: [57, 60, 65, 60, 69, 65, 60, 65] },
+    { bass: 43, arp: [59, 62, 67, 62, 71, 67, 62, 67] }
+  ];
+  const MEL = { '0:0': 76, '0:4': 79, '1:0': 76, '1:3': 74, '1:6': 72, '2:0': 77, '2:4': 72, '3:0': 74, '3:4': 71 };
+
+  function makeReverb(a) {
+    const len = Math.floor(a.sampleRate * 2.4);
+    const buf = a.createBuffer(2, len, a.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6);
+    }
+    const cv = a.createConvolver();
+    cv.buffer = buf;
+    return cv;
+  }
+
+  function pianoNote(m, when, vel, dur) {
+    const a = piano.ctx;
+    const f = hz(m);
+    const out = a.createGain();
+    out.gain.setValueAtTime(0.0001, when);
+    out.gain.exponentialRampToValueAtTime(vel, when + 0.012);
+    out.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    out.connect(piano.bus);
+    [[1, 1], [2, .35], [3, .12], [4, .05]].forEach(([k, g]) => {
+      const o = a.createOscillator();
+      const og = a.createGain();
+      o.type = 'sine';
+      o.frequency.value = f * k;
+      og.gain.value = g;
+      o.connect(og);
+      og.connect(out);
+      o.start(when);
+      o.stop(when + dur + .05);
+    });
+  }
+
+  function pianoTick() {
+    const a = piano.ctx;
+    while (piano.next < a.currentTime + .25) {
+      const bar = Math.floor(piano.step / 8) % PROG.length;
+      const e = piano.step % 8;
+      const ch = PROG[bar];
+      if (e === 0) pianoNote(ch.bass, piano.next, .16, 3.2);
+      pianoNote(ch.arp[e], piano.next, e % 2 ? .05 : .07, 1.6);
+      const mel = MEL[bar + ':' + e];
+      if (mel) pianoNote(mel, piano.next, .1, 2.4);
+      piano.next += EIGHTH;
+      piano.step++;
+    }
+  }
+
+  function startPiano() {
+    if (piano.on || piano.muted) return;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    if (!piano.ctx) {
+      const a = piano.ctx = new AC();
+      piano.master = a.createGain();
+      piano.master.gain.value = 0;
+      piano.master.connect(a.destination);
+      piano.bus = a.createGain();
+      const lp = a.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.value = 2800;
+      const dry = a.createGain();
+      dry.gain.value = .8;
+      const wet = a.createGain();
+      wet.gain.value = .3;
+      const verb = makeReverb(a);
+      piano.bus.connect(lp);
+      lp.connect(dry); dry.connect(piano.master);
+      lp.connect(verb); verb.connect(wet); wet.connect(piano.master);
+    }
+    piano.ctx.resume();
+    piano.on = true;
+    piano.next = piano.ctx.currentTime + .1;
+    piano.master.gain.setTargetAtTime(.5, piano.ctx.currentTime, .6);
+    piano.timer = setInterval(pianoTick, 100);
+    pianoTick();
+    $('sound').classList.add('on');
+    $('sound').title = 'ปิดเสียงเพลง';
+  }
+
+  function stopPiano() {
+    if (!piano.on) return;
+    piano.on = false;
+    clearInterval(piano.timer);
+    piano.master.gain.setTargetAtTime(0, piano.ctx.currentTime, .25);
+    setTimeout(() => { if (!piano.on) piano.ctx.suspend(); }, 1200);
+    $('sound').classList.remove('on');
+    $('sound').title = 'เปิดเสียงเพลง';
+  }
+
+  $('sound').title = 'เปิดเสียงเพลง';
+  $('sound').onclick = () => {
+    if (piano.on) { piano.muted = true; stopPiano(); }
+    else { piano.muted = false; startPiano(); }
+  };
+})();
+
+  </script>
+</body>
+</html>
